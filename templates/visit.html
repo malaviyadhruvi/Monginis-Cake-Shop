@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monginis Store Locator</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-size: cover;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .left {
+            flex: 1;
+            max-width: 50%;
+            text-align: center;
+            padding: 20px;
+            border: 3px solid #ff1493;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.95);
+            color: black;
+            height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+        }
+        .left:hover {
+            transform: scale(1.03);
+        }
+        .left label {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            display: block;
+            color: #ff1493;
+        }
+        select {
+            padding: 12px;
+            font-size: 18px;
+            width: 90%;
+            margin-bottom: 15px;
+            text-align: center;
+            border: 2px solid #ff1493;
+            border-radius: 6px;
+            background: white;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        select:hover {
+            background: #ffecf2;
+            border-color: #d11379;
+        }
+        select:focus {
+            outline: none;
+            border-color: #ff1493;
+            box-shadow: 0px 0px 10px rgba(255, 20, 147, 0.5);
+        }
+        .button-container {
+            text-align: center;
+            padding: 10px;
+            border: 2px solid #ff1493;
+            border-radius: 8px;
+            display: inline-block;
+            background: white;
+            transition: transform 0.3s;
+        }
+        .button-container:hover {
+            transform: scale(1.05);
+        }
+        button {
+            padding: 10px 16px;
+            font-size: 16px;
+            background: #ff1493;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #d11379;
+            transform: scale(1.1);
+        }
+        .right {
+            flex: 1;
+            max-width: 40%;
+        }
+        .right img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .right img:hover {
+            transform: scale(1.05);
+            box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        #map {
+            width: 100%;
+            height: 500px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    {% include "header.html" %}
+    <h2>Monginis Store Locator</h2>
+    
+    <div class="container">
+        <!-- Left side: Styled Dropdown and Button -->
+        <div class="left">
+            <label for="store">Select a Store:</label>
+            <select id="store">
+                <option value="21.6037,71.2181,Monginis Cake Shop - Amreli,Near Bus Stand, Amreli, Gujarat">Amreli</option>
+                <option value="23.0301,72.5625,Monginis Cake Shop - Ahmedabad,Navrangpura, Ahmedabad, Gujarat">Ahmedabad</option>
+                <option value="19.0760,72.8777,Monginis Cake Shop - Mumbai,Colaba, Mumbai, Maharashtra">Mumbai</option>
+                <option value="22.3039,70.8022,Monginis Cake Shop - Rajkot,Kotecha Chowk, Rajkot, Gujarat">Rajkot</option>
+                <option value="21.1702,72.8311,Monginis Cake Shop - Surat,City Light, Surat, Gujarat">Surat</option>
+            </select>
+            <div class="button-container">
+                <button onclick="updateMap()">Find Store</button>
+            </div>
+        </div>
+
+        <!-- Right side: Image from static folder -->
+        <div class="right">
+            <img src="/static/img/visit.jpg" alt="Visit Monginis">
+        </div>
+    </div>
+
+    <!-- Map section -->
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map centered on Amreli
+        let map = L.map('map').setView([21.6037, 71.2181], 13);
+        
+        // Load OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Initialize marker
+        let marker = L.marker([21.6037, 71.2181]).addTo(map)
+            .bindPopup("<b>Monginis Cake Shop - Amreli</b><br>Near Bus Stand, Amreli, Gujarat")
+            .openPopup();
+
+        function updateMap() {
+            let selectedValue = document.getElementById("store").value.split(",");
+            let lat = parseFloat(selectedValue[0]);
+            let lon = parseFloat(selectedValue[1]);
+            let name = selectedValue[2];
+            let address = selectedValue[3];
+
+            // Move map to new location
+            map.setView([lat, lon], 15);
+
+            // Remove old marker and add new one
+            marker.remove();
+            marker = L.marker([lat, lon]).addTo(map)
+                .bindPopup(`<b>${name}</b><br>${address}`)
+                .openPopup();
+        }
+    </script>
+    {% include "footer.html" %}
+</body>
+</html>

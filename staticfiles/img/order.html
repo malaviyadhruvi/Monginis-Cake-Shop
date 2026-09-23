@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Delivery</title>
+    <style>
+	/* styles.css */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.hero {
+    background-color: #f9f9f9;
+    padding: 20px;
+    text-align: center;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+.hero-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.text-section {
+    max-width: 400px;
+    text-align: left;
+    margin: 10px;
+}
+
+.app-form input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.app-form button {
+    background-color: #EC268F;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.image-section img {
+    max-width: 100%;
+    height: auto;
+}
+
+.features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.feature {
+    text-align: center;
+    margin: 10px;
+    max-width: 300px;
+}
+
+.feature img {
+    max-width: 80px;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .hero-content {
+        flex-direction: column;
+    }
+}
+.logo{
+	height:50px;
+	width:170px;
+	margin-left:100px;
+}
+.del{
+	height:100px;
+	width:300px;
+	margin-left:200px;
+}
+
+	</style>
+</head>
+<body>
+<img src="img/logo.jpg" class="logo">
+    <section class="hero">
+        <div class="hero-content">
+            <div class="text-section">
+                <h2>Provide Details About You</h2>
+                <form class="app-form">
+					<input type="number" placeholder="Enter Quantity"required>
+                    <input type="text" placeholder="Enter Name" required>
+                    <input type="email" placeholder="Enter Email" required>
+					 <input type="text" placeholder="Enter Pincode" required>
+                    <input type="text" placeholder="Enter City" required>
+					 <input type="text" placeholder="Enter Address" required>
+                    <button type="submit">Place Order</button>
+                </form>
+            </div>
+            <div class="image-section">
+                <img src="img/del.png" alt="Delivery Boy on Scooter" class="del">
+            </div>
+        </div>
+    </section>
+    <section class="features">
+        <div class="feature">
+            <img src="img/sr1.jpg" alt="No Minimum Order">
+            <h3>Safe & Hygenic Bakery</h3>
+           
+        </div>
+        <div class="feature">
+            <img src="img/sr2.jpg" alt="Live Order Tracking">
+            <h3>Delivery in 700+ city</h3>
+            
+        </div>
+        <div class="feature">
+            <img src="img/sr3.jpg" alt="Super Fast Delivery">
+            <h3>Trusted by 20 million people</h3>
+        </div>
+		<div class="feature">
+            <img src="img/sr4.jpg" alt="Super Fast Delivery">
+            <h3>Services in 14000+ pincodes</h3>
+            
+        </div>
+    </section>
+</body>
+</html>
+

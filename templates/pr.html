@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monginis - Cakes and Pastries</title>
+	<head>
+    <meta charset="utf-8">
+    <title>Makaan - Real Estate HTML Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+    <style>
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        header img {
+            height: 50px;
+        }
+
+        header nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .search-bar {
+            display: flex;
+            margin: 20px;
+            justify-content: center;
+        }
+
+        .search-bar input {
+            width: 60%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .search-bar button {
+            padding: 10px 15px;
+            background-color: #ff77a9;
+            border: none;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .hero {
+            background: url('https://via.placeholder.com/1200x400') no-repeat center/cover;
+            color: #fff;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin: 0;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin: 10px 0;
+        }
+
+        .hero button {
+            padding: 15px 30px;
+            background-color: #ff77a9;
+            border: none;
+            font-size: 1rem;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .categories {
+            text-align: center;
+            margin: 50px 20px;
+        }
+
+        .categories h2 {
+            margin-bottom: 20px;
+        }
+
+        
+        .category {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+			width:200px;
+        }
+	.categor {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+			width:600px;
+        }
+		#category1{
+			margin-left:42%;
+		}
+		#category2{
+			margin-right:42%;
+		}
+		#category3{
+			margin-right:42%;
+			margin-top:250px;
+		}
+		#category4{
+			margin-right:42%;
+			margin-top:250px;
+		}
+		#category5{
+			margin-right:42%;
+			margin-top:500px;
+		}
+		#category6{
+			margin-right:42%;
+			margin-top:500px;
+		}
+        .category img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .category:hover {
+            transform: scale(1.05);
+        }
+		.categor:hover {
+            transform: scale(1.05);
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+ body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f1f4;
+            text-align: center;
+        }
+
+        .categories {
+            padding: 50px 20px;
+			
+        }
+
+        .categories h2 {
+            color: #ff007a;
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+			
+        }
+
+        .category {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .category img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .category:hover img {
+            transform: scale(1.1);
+        }
+
+        .category:hover {
+            transform: scale(1.05);
+        }
+
+        .category-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 10px 0;
+            font-size: 1.2rem;
+            text-transform: capitalize;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://via.placeholder.com/150x50" alt="Monginis Logo">
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Cakes</a>
+            <a href="#">Pastries</a>
+            <a href="#">Contact Us</a>
+        </nav>
+    </header>
+
+    <div class="search-bar">
+        <input type="text" placeholder="Search for cakes, pastries, cookies, etc.">
+        <button>Search</button>
+    </div>
+
+    <section class="hero">
+	<img src="img/banner2.jpg">
+    </section>
+
+<section class="categories">
+        <h2>Our Categories</h2>
+        <div class="categories-grid">
+            <div class="category">
+                <img src="img/a1.jpg" alt="Cakes">
+                <div class="category-title">Cakes</div>
+            </div>
+            <div class="category">
+                <img src="img/a3.jpg" alt="Pastries">
+                <div class="category-title">Pastries</div>
+            </div>
+            <div class="category">
+                <img src="img/m1.jpg" alt="Packaged Cakes">
+                <div class="category-title">Packaged Cakes</div>
+            </div>
+            <div class="category">
+                <img src="img/a6.jpg" alt="Brownie">
+                <div class="category-title">Brownie</div>
+            </div>
+            <div class="category">
+                <img src="img/h1.jpg" alt="Chocolates">
+                <div class="category-title">Chocolates</div>
+            </div>
+            <div class="category">
+                <img src="img/a2.jpg" alt="Donuts">
+                <div class="category-title">Donuts</div>
+            </div>
+			<div class="category">
+                <img src="img/a5.jpg" alt="Muffins">
+                <div class="category-title">Muffins</div>
+            </div>
+            <div class="category">
+                <img src="img/a4.jpeg" alt="chocolate Bouquet">
+                <div class="category-title">chocolate Bouquet</div>
+            </div>
+        </div>
+    </section>
+
+
+    <footer>
+        <p>&copy; 2024 Monginis. All rights reserved.</p>
+    </footer>
+</body>
+</html>

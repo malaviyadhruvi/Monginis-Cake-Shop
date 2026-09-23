@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monginis Payment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: auto;
+        }
+        .qr-container {
+            margin-top: 20px;
+        }
+        .back-button {
+            background-color: #EC268F;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        .back-button:hover {
+            background-color: #d41e7e;
+        }
+        .redirect-message {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Monginis Payment</h1>
+        <label>Amount to Pay:</label>
+        <span id="tp">₹{{ tp }}</span>  
+    
+        <div class="qr-container">
+            <img id="qrCode" src="" alt="Payment QR Code" width="200">
+        </div>
+
+        <p>We will deliver your order soon!</p>
+        
+        <button class="back-button" onclick="window.location.href='/'">Back to Home</button>
+        
+        <p class="redirect-message">Redirecting to home in <span id="countdown">30</span> seconds...</p>
+    </div>
+
+    <script>
+        function getTotalPriceFromURL() {
+            let params = new URLSearchParams(window.location.search);
+            return params.get("tp") || "0";  // Default to 0 if not found
+        }
+    
+        function generateQRCode() {
+            let tp = getTotalPriceFromURL();
+            document.getElementById("tp").innerText = "₹" + tp;  // Display price
+    
+            let qrCodeImage = document.getElementById("qrCode");
+            let upiID = "yourupi@bank";  // Replace with your actual UPI ID
+            let qrData = `upi://pay?pa=${upiID}&pn=Monginis&am=${tp}&cu=INR`;
+    
+            qrCodeImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrData)}`;
+        }
+    
+        function startCountdown() {
+            let countdownElement = document.getElementById("countdown");
+            let seconds = 30;
+    
+            let timer = setInterval(function() {
+                seconds--;
+                countdownElement.innerText = seconds;
+    
+                if (seconds <= 0) {
+                    clearInterval(timer);
+                    window.location.href = "/";  // Redirect to home page
+                }
+            }, 1000);
+        }
+    
+        document.addEventListener("DOMContentLoaded", function() {
+            generateQRCode();
+            startCountdown();  // Start countdown on page load
+        });
+    </script>
+      
+</body>
+</html>

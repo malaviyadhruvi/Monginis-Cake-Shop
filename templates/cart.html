@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <style>
+        .cart-container {
+            width: 70%;
+            margin: auto;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #ec268f;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            border-radius: 10px;
+        }
+        .cart-item {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+        }
+        .cart-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-right: 15px;
+            border-radius: 5px;
+        }
+        .cart-item .details {
+            flex-grow: 1;
+        }
+        .cart-item .quantity-container {
+            display: flex;
+            align-items: center;
+        }
+        .cart-item .quantity-container button {
+            background-color: #ec268f;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 5px;
+            margin: 0 5px;
+        }
+        .cart-item .quantity-container input {
+            text-align: center;
+            width: 40px;
+            font-size: 18px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 5px;
+        }
+        .cart-item .remove-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            color: red;
+        }
+        .cart-total {
+            margin-top: 20px;
+            font-size: 22px;
+            text-align: right;
+            font-weight: bold;
+            color: #ec268f;
+        }
+        .checkout-form {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fce4ec;
+            border-radius: 10px;
+        }
+        .checkout-form h2 {
+            color: #ec268f;
+        }
+        .checkout-form label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .checkout-form input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .payment-button {
+            background-color: #ec268f;
+            color: white;
+            padding: 12px;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
+        .payment-button:hover {
+            background-color: #c2185b;
+        }
+    </style>
+</head>
+<body>
+
+{% include "header.html" %}
+
+<div class="cart-container">
+    <header>
+        <h1>Your Cart</h1>
+    </header>
+    <div id="cartItems"></div>
+    <div id="cartTotal" class="cart-total"></div>
+
+    {% csrf_token %}
+
+    <div class="checkout-form">
+        <h2>Billing Details</h2>
+        <label>Name: <input type="text" id="name" required></label>
+        <label>Address: <input type="text" id="address" required></label>
+        <label>Pin Code: <input type="text" id="pin" pattern="[0-9]{6}" required></label>
+        <label>City: <input type="text" id="city" required></label>
+        <label>Mobile Number: <input type="number" id="mobile" required pattern="\+?[0-9]{10}"></label>
+
+        <h2>Payment Options</h2>
+        <label>Choose Payment Method:
+            <select id="paymentMethod">
+                <option value="">Select Payment Method</option>
+                <option value="qr">QR Code</option>
+                <option value="cod">Cash on Delivery (COD)</option>
+                
+            </select>
+        </label>
+
+        <button class="payment-button" onclick="placeOrder()">Proceed to Payment</button>
+    </div>
+</div>
+
+{% include "footer.html" %}
+
+<script>
+    function getCSRFToken() {
+        return document.querySelector('[name=csrfmiddlewaretoken]').value;
+    }
+
+    function addToCart(name, price, image) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        let existingItem = cart.find(item => item.name === name);
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ name, price, image, quantity: 1 });
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+        loadCart();
+    }
+
+    function loadCart() {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const cartContainer = document.getElementById('cartItems');
+        const cartTotal = document.getElementById('cartTotal');
+
+        cartContainer.innerHTML = '';
+        if (cart.length === 0) {
+            cartContainer.innerHTML = '<p style="color: #EC268F; font-size: 20px;">Your cart is empty!</p>';
+            cartTotal.innerHTML = '';
+            return;
+        }
+
+        let totalPrice = 0;
+        cart.forEach(item => {
+            const itemElement = document.createElement('div');
+            itemElement.classList.add('cart-item');
+            itemElement.innerHTML = `
+                <img src="${item.image}" alt="${item.name}">
+                <div class="details">
+                    <p>${item.name}</p>
+                    <p>Price: ₹ ${item.price}</p>
+                    <div class="quantity-container">
+                        <button onclick="updateQuantity('${item.name}', -1)">-</button>
+                        <input type="text" value="${item.quantity}" readonly>
+                        <button onclick="updateQuantity('${item.name}', 1)">+</button>
+                    </div>
+                </div>
+                <button class="remove-btn" onclick="removeItem('${item.name}')">
+                <img src="/static/img/trash-icon.png" 
+                style="height: 45px; width: 45px;">
+                </button>
+
+            `;
+
+            cartContainer.appendChild(itemElement);
+            totalPrice += item.price * item.quantity;
+        });
+
+        cartTotal.innerHTML = `Total: ₹ ${totalPrice.toFixed(2)}`;
+    }
+
+    function updateQuantity(itemName, change) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let item = cart.find(item => item.name === itemName);
+
+        if (item) {
+            item.quantity += change;
+            if (item.quantity < 1) {
+                cart = cart.filter(item => item.name !== itemName);
+            }
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+        loadCart();
+    }
+
+    function removeItem(itemName) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart = cart.filter(item => item.name !== itemName);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        loadCart();
+    }
+
+    function placeOrder() {
+        let customer_name = document.getElementById("name").value.trim();
+        let address = document.getElementById("address").value.trim();
+        let pin = document.getElementById("pin").value.trim();
+        let city = document.getElementById("city").value.trim();
+        let mobile = document.getElementById("mobile").value.trim();
+        let paymentMethod = document.getElementById("paymentMethod").value;
+        let csrfToken = getCSRFToken();
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        if (cart.length === 0) {
+            alert("Your cart is empty!");
+            return;
+        }
+
+        let totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+        fetch("{% url 'orderpage_view' %}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken
+            },
+            body: JSON.stringify({
+                customer_name: customer_name,
+                address: address,
+                pin: pin,
+                city: city,
+                mobile: mobile,
+                paymentMethod: paymentMethod,
+                totalAmount: totalAmount,
+                items: cart
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                localStorage.removeItem('cart');
+                window.location.href = "{% url 'order_successful' %}?order_id=" + data.order_id;
+            } else {
+                alert("Error: " + data.message);
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    }
+
+
+
+    document.addEventListener('DOMContentLoaded', loadCart);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monginis - Order</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+        .container {
+            display: flex;
+            width: 80%;
+            margin: 50px auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .form-section {
+            width: 50%;
+            padding: 40px;
+        }
+        .form-section h2 {
+            text-align: center;
+            color: #EC268F;
+        }
+        .form-section input, .form-section select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-section button {
+            background-color: #EC268F;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .form-section button:hover {
+            background-color: #d41e7e;
+        }
+        .image-section {
+            width: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            padding: 20px;
+        }
+        .image-section img {
+            max-width: 80%;
+            height: auto;
+        }
+        .hidden {
+            display: none;
+        }
+        .features {
+            display: flex;
+            padding: 30px;
+            background-color: #fff;
+            margin-left:430px;
+            width:900px;
+        }
+        .feature {
+            text-align: center;
+            max-width: 250px;
+        }
+        .feature img {
+            max-width: 80px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    {% include "header.html" %}
+    
+    <div class="container">
+        <div class="form-section">
+            <h2>Provide Details About You</h2>
+            <form method="POST" action="{% url 'order' %}">
+
+                {% csrf_token %}  <!-- Important for security -->
+
+                <input type="text" placeholder="Enter Name" required name="name" required>           
+                <input type="text" required name="prnm" value="{{ request.GET.name }}" readonly>     
+                <input type="number" required name="prp" value="{{ request.GET.price }}" id="productPrice" readonly>
+                <input type="number" placeholder="Enter Quantity" required name="qty" id="qty" min="1" onchange="calculateTotal()" required>           
+                <input type="number" placeholder="Grand Total" required name="tp" id="tp" readonly>
+                <input type="tel" placeholder="Enter Mobile number" required name="no" pattern="\+?[0-9]{10}" required>
+                <input type="text" placeholder="Enter Pincode" required name="pincode"  pattern="[0-9]{6}" required>
+                <input type="text" placeholder="Enter City" required name="city" required>
+                <input type="text" placeholder="Enter Address" required name="address" required>            
+                <h2>Select Payment Method</h2>
+                <select id="paymentMethod" name="paymentMethod" onchange="handlePaymentChange()">
+                    <option value="qr">QR Code Payment</option>
+                    <option value="cod">Cash on Delivery</option>    
+                </select>
+                
+                <button type="submit">Proceed to Pay</button>
+
+            </form>
+        </div>
+       
+        <div class="image-section">
+            <img src="/static/img/del.png" alt="Delivery Boy on Scooter">
+        </div>
+    </div>
+    <section class="features">
+        <div class="feature">
+            <img src="/static/img/s1.jpg" alt="No Minimum Order">
+            <h5>Safe & Hygienic Bakery</h5>
+        </div>
+        <div class="feature">
+            <img src="/static/img/s2.jpg" alt="Live Order Tracking">
+            <h5>Delivery in 700+ cities</h5>
+        </div>
+        <div class="feature">
+            <img src="/static/img/s3.jpg" alt="Super Fast Delivery">
+            <h5>Trusted by 20 million people</h5>
+        </div>
+        <div class="feature">
+            <img src="/static/img/s4.jpg" alt="Super Fast Delivery">
+            <h5>Services in 14000+ pincodes</h5>
+        </div>
+       
+    </section>    
+    <script>
+        function calculateTotal() {
+            let priceInput = document.querySelector("input[name='prp']");
+            let quantityInput = document.querySelector("input[name='qty']");
+            let totalInput = document.getElementById("tp");
+    
+            let price = parseFloat(priceInput.value);
+            let quantity = parseInt(quantityInput.value);
+    
+            if (!isNaN(price) && !isNaN(quantity) && quantity > 0) {
+                let total = price * quantity;
+                totalInput.value = total.toFixed(2);  // Set total price with 2 decimal places
+            } else {
+                totalInput.value = "0.00";  // Reset if invalid
+            }
+        }
+    
+        function processPayment() {
+            let method = document.getElementById("paymentMethod").value;
+            let tp = document.getElementById("tp").value;
+    
+            if (!tp || parseFloat(tp) <= 0) {
+                alert("Please enter a valid quantity.");
+                return;
+            }
+    
+            if (method === "qr") {
+                // Redirect to payment page with total price as URL parameter
+                window.location.href = `/payment/?tp=${encodeURIComponent(tp)}`;
+            } else if (method === "cod") {
+                // Redirect to order success page
+                window.location.href = "/order_successful/";
+            }
+        }
+    
+        // Ensure total is calculated on page load
+        document.addEventListener("DOMContentLoaded", function() {
+            calculateTotal();
+        });
+    
+        // Recalculate total when quantity changes
+        document.querySelector("input[name='qty']").addEventListener("input", calculateTotal);
+    </script>
+    
+    {% include "footer.html" %}
+</body>
+</html>

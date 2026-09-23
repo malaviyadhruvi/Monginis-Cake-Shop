@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <style>
+        /* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+
+/* Header Styles */
+.header {
+    background-color: #2a0756;
+    color: #EC268F;
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* Section Styles */
+.section {
+    margin: 40px auto;
+    padding: 20px;
+    max-width: 800px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.section h2 {
+    text-align: center;
+    color: #EC268F;
+    margin-bottom: 20px;
+}
+
+/* Content Layout */
+.content {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.content img {
+    max-width: 150px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.content p {
+    flex: 1;
+}
+
+/* List Styles */
+.section ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.section ul li {
+    margin: 10px 0;
+    padding-left: 20px;
+    position: relative;
+}
+
+.section ul li::before {
+    content: '✓';
+    color: #2a0756;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .content img {
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+}
+
+    </style>
+</head>
+<body>
+       <!-- Navbar Start -->
+       {% include "header.html" %}
+       <!-- Navbar End -->
+        <br><br><br><br><br><br>
+    <header class="header">
+        <h1 style="color: #EC268F;">About Us</h1>
+    </header>
+    <section class="section">
+        <h2>Our Story</h2>
+        <div class="content">
+            <img src="/static/img/ab-ourStrory.png" alt="Cake and Cupcake" style="margin-left: 41%; height: 200px;">
+            </div><div>
+            <p>
+                Our journey began with a dream to bring joy through baking. Today, it continues to grow with passion
+                and dedication. We started with a small bakery and have grown into a family of happy customers who enjoy
+                our handcrafted cakes and treats.
+                <br><br>
+                Every product we make is a testament to our love for creating memorable moments through desserts.
+            </p>
+        </div>
+    </section>
+    <section class="section">
+        <h2>Our Mission, Values, and Vision</h2>
+        <p>
+            Creating exceptional cakes is our way of life, and our customers and partners are the focus of everything that we do. Our unwavering commitment to both our customers, franchise partners & distributors is the key to our success in the future. We are dedicated to creating a dynamic environment, conducting ourselves with the highest integrity for every component in our value chain: our customers, suppliers, team members, and franchise partners. By acting in the best interest of everyone along our value chain, we are able to ensure our company’s sweet success.
+        </p>
+    </section>
+    <section class="section">
+        <h2>Our Core Values</h2>
+        <ul>
+            <li>Commitment to using only high-quality ingredients.</li>
+            <li>Building relationships with customers through trust and exceptional service.</li>
+            <li>Innovation while maintaining a love for tradition.</li>
+        </ul>
+    </section>
+    <section class="section">
+        <h2>Our Secret</h2>
+        <div class="content">
+            <img src="/static/img/abs2.jpg" alt="Ingredients" style="height: 250px; width: 150px;">
+            <p>
+                Monginis only uses the finest ingredients in its products, ensuring the goods that we send out into the market are of the utmost quality. Monginis believes in order to give the Real taste of any product, real ingredients should be used & not cheaper substitutes. Our production includes a highly-customized, automated system but does not forego the importance of the human touch, while still adhering to strict quality control measures at every stage of production, packaging, and delivery.
+
+                Combining technology and people is what ensures that our products are the best. Without our dedicated, skilled, and loyal team members, Monginis would not be where it is today.
+             </p>
+        </div>
+    </section>
+    <section class="section">
+        <h2>Our Moral Responsibility</h2>
+        <h3 style="color: #EC268F;">Food Safety</h3>
+        <p>
+            The philosophical viewpoint of the Food and Drug Administration is that they would prefer to see industries bring their plants into compliance voluntarily rather than to force compliance through FDA action.
+
+The government rarely takes legal action against a processor without first making an inspection. The simplest examples are the finding of food products containing whole insects, very large fragments, whole rodent pellets or hairs, or in general, extraneous matter characterized by large size, indicating that the filth did not come from the raw ingredients.
+
+        </p>
+        <h3 style="color: #EC268F;">Our Standards</h3>
+        <p>
+            We are a HACCP & ISO : 22000 certified company. We believe in ensuring the highest degree of sanitation and hygiene. We also follow Good Manufacturing practices levied by the AIB (The American Institute of Baking).
+
+        </p>
+        <h3 style="color: #EC268F;">Our values</h3>
+        <p>
+            We at Monginis take a moral responsibility of upholding all the Laws levied by the FDA. We believe in using the highest quality of raw materials and ingredients in our manufactured goods. We take pride in our processes which ensure consistency and ensure safety from hazardous mishaps.
+
+            We believe in being honest and fair to all our stake holders. We strictly do not give credit nor encourage the idea of credit related transactions. Our company is a 100% interest free company. One of the very few companies in today’s times which could actually claim to be 100% interest free. We do not take interest not lend on interest.
+
+        </p>
+    </section>
+     <!-- footer start -->
+     {% include "footer.html" %}
+     <!-- footer end-->
+
+</body>
+</html>

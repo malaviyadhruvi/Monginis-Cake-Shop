@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+	* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+#captcha-text{
+    user-select:none;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f4f4f4;
+}
+
+.container {
+    display: flex;
+    width: 800px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    height:600px;
+}
+
+.registration-form {
+    width: 50%;
+    padding: 30px;
+    background: #f9f9f9;
+}
+
+.registration-form h2 {
+    margin-bottom: 20px;
+}
+
+.registration-form input, 
+.registration-form select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.captcha-container {
+    display: flex;
+    align-items: center;
+}
+
+.captcha-container span {
+    margin-right: 10px;
+    font-weight: bold;
+    background: #ddd;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.refresh-captcha, .register-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.refresh-captcha {
+    background: #ff0080;
+    color: white;
+    border-radius: 5px;
+}
+
+.register-btn {
+    background: #ff0080;
+    color: white;
+    border-radius: 5px;
+}
+
+.login-section {
+    width: 50%;
+    background: #ff0080;
+    color: white;
+    text-align: center;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-btn {
+    padding: 10px 20px;
+    border: 1px solid white;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+	</style>
+</head>
+<body>
+    <div class="container">
+        <div class="registration-form">
+            <h1 style="margin-top:100px;margin-left:120px;margin-bottom:30px">Login</h1>
+            <form action="{% url 'login' %}" method="POST" onsubmit="return validateCaptcha(event)">
+                {% csrf_token %}
+                <input type="text" placeholder="Enter username" id="login_user" name="login_user" required>
+                <input type="password" placeholder="Password" id="login_pass" name="login_pass" required>
+                <a href="{% url 'forgot_password_view' %}" style="margin-left:200px;">Forget Password?</a>
+            
+                <div class="captcha-container">
+                    <span id="captcha-text"></span>
+                    <input type="text" id="captcha-input" placeholder="Enter CAPTCHA">
+                </div>
+                <p id="captcha-error" class="error" style="color: red; font-size: 14px;"></p>
+
+                <button type="button" class="refresh-captcha" onclick="generateCaptcha()">Refresh CAPTCHA</button>
+                <button type="submit" class="register-btn">Login</button>
+            </form>      
+        </div>
+
+        <div class="login-section">
+            <h2>Hello</h2>
+            <p>Don't have an account?</p>
+            <a href="{% url 'registration' %}" 
+                style="margin-left:10px; text-align: center; height: 40px; width: 300px; line-height: 40px; margin-top: 15px;
+                border-style:groove; border-color:white; color: white; text-decoration: none; border-radius: 5px;">
+                Register
+            </a>
+        </div>
+    </div>
+
+    <script>
+        let generatedCaptcha = "";
+
+        // Function to generate a random CAPTCHA
+        function generateCaptcha() {
+            let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            generatedCaptcha = '';
+            for (let i = 0; i < 6; i++) {
+                generatedCaptcha += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            document.getElementById('captcha-text').textContent = generatedCaptcha;
+        }
+
+        function validateCaptcha(event) {
+            let userCaptcha = document.getElementById('captcha-input').value.trim();
+            let errorMessage = document.getElementById('captcha-error');
+
+            if (userCaptcha.toUpperCase() !== generatedCaptcha || userCaptcha === "") {
+                errorMessage.textContent = "Invalid CAPTCHA. Try again!";
+                errorMessage.style.color = "red";
+                generateCaptcha(); // Refresh CAPTCHA on failure
+                return false; // Prevent form submission
+            } else {
+                errorMessage.textContent = "CAPTCHA Verified!";
+                errorMessage.style.color = "green";
+                return true; // Allow form submission
+            }
+        }
+
+        // Generate CAPTCHA when the page loads
+        window.onload = generateCaptcha;
+    </script>
+</body>
+</html>

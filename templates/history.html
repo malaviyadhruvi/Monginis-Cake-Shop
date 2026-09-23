@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .timeline {
+            max-width: 800px;
+            margin: 50px auto;
+            position: relative;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: #e5097f;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+
+        .timeline-entry {
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .timeline-entry .circle {
+            width: 20px;
+            height: 20px;
+            background: #e5097f;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            margin-left: -10px;
+            z-index: 1;
+        }
+
+        .timeline-entry .content {
+            position: relative;
+            width: 45%;
+            padding: 15px;
+            background: #f1f1f1;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-entry:nth-child(odd) .content {
+            left: 55%;
+        }
+
+        .timeline-entry:nth-child(even) .content {
+            left: 0;
+        }
+
+        .timeline-entry .content h3 {
+            margin: 0 0 10px;
+            font-size: 18px;
+            color:#e5097f;
+        }
+
+        .timeline-entry .content p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+       <!-- Navbar Start -->
+       {% include "header.html" %}
+       <!-- Navbar End -->
+    <div class="timeline">
+        <div class="timeline-entry">
+            <div class="circle"></div>
+            <div class="content">
+                <h3>2019 - Well Known Brand of India</h3>
+                <p>
+                    - Became a well-known brand of India.<br>
+                    - Continued excellence in the food industry.
+                </p>
+            </div>
+        </div>
+
+        <div class="timeline-entry">
+            <div class="circle"></div>
+            <div class="content">
+                <h3>2018 - Awarded Franchiser of the Year</h3>
+                <p>
+                    - Recognized for exceptional franchise management.<br>
+                    - Continued to grow with more outlets nationwide.
+                </p>
+            </div>
+        </div>
+
+        <div class="timeline-entry">
+            <div class="circle"></div>
+            <div class="content">
+                <h3>2017 - New Monginis Factories Established</h3>
+                <p>
+                    - Factories opened to expand production.<br>
+                    - Improved logistics and delivery.
+                </p>
+            </div>
+        </div>
+
+        <div class="timeline-entry">
+            <div class="circle"></div>
+            <div class="content">
+                <h3>2016 - Indian Power Brand in Cakes</h3>
+                <p>
+                    - Became a leader in cake and bakery categories.<br>
+                    - Awarded for innovation and quality.
+                </p>
+            </div>
+        </div>
+
+        <div class="timeline-entry">
+            <div class="circle"></div>
+            <div class="content">
+                <h3>2015 - A New Monginis Factory at Kolhapur</h3>
+                <p>
+                    - Expanded reach with a new factory in Kolhapur.<br>
+                    - Enhanced supply chain capabilities.
+                </p>
+            </div>
+        </div>
+
+        <div class="timeline-entry">
+            <div class="circle"></div>
+            <div class="content">
+                <h3>2014 - Launched an Exclusive E-motion Cake</h3>
+                <p>
+                    - Introduced innovative and personalized cake designs.<br>
+                    - Increased customer engagement.
+                </p>
+            </div>
+        </div>
+
+        <div class="timeline-entry">
+            <div class="circle"></div>
+            <div class="content">
+                <h3>2013 - Made a 2000kg Cake</h3>
+                <p>
+                    - Set a record with an enormous 2000kg cake.<br>
+                    - Gained recognition for creativity and skill.
+                </p>
+            </div>
+        </div>
+
+        <div class="timeline-entry">
+            <div class="circle"></div>
+            <div class="content">
+                <h3>2012 - New Factory Launched</h3>
+                <p>
+                    - Opened a new state-of-the-art factory.<br>
+                    - Improved production capacity and efficiency.
+                </p>
+            </div>
+        </div>
+
+        <div class="timeline-entry">
+            <div class="circle"></div>
+            <div class="content">
+                <h3>2011 - Launched E-commerce Website</h3>
+                <p>
+                    - Pioneered online cake ordering.<br>
+                    - Expanded accessibility for customers.
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- footer start -->
+    {% include "footer.html" %}
+    <!-- footer end-->
+
+</body>
+</html>

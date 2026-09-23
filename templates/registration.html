@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <style>
+	* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f4f4f4;
+}
+
+.container {
+    display: flex;
+    width: 800px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.registration-form {
+    width: 50%;
+    padding: 30px;
+    background: #f9f9f9;
+}
+
+.registration-form h2 {
+    margin-bottom: 20px;
+}
+
+.registration-form input, 
+.registration-form select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.captcha-container {
+    display: flex;
+    align-items: center;
+}
+
+.captcha-container span {
+    margin-right: 10px;
+    font-weight: bold;
+    background: #ddd;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.refresh-captcha, .register-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.refresh-captcha {
+    background: #ff0080;
+    color: white;
+    border-radius: 5px;
+}
+
+.register-btn {
+    background: #ff0080;
+    color: white;
+    border-radius: 5px;
+}
+
+.login-section {
+    width: 50%;
+    background: #ff0080;
+    color: white;
+    text-align: center;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-btn {
+    padding: 10px 20px;
+    border: 1px solid white;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+.error {
+    color: red;
+    font-size: 14px;
+}
+
+	</style>
+</head>
+<body>
+    <div class="container">
+        <div class="registration-form">
+            <h2>Registration</h2>
+            <form action="{% url 'success' %}" method="POST" onsubmit="validateCaptcha(event)">
+
+                {% csrf_token %}
+                <input type="text" placeholder="Enter User Name" id="name" name="name" required>
+                <input type="email" placeholder="Enter Email" id="email" name="email" required>
+                <input type="tel" placeholder="Enter Mobile Number" id="mob_num" name="mob_num" pattern="^\+?[1-9]\d{1,14}$" required>
+                <input type="text" placeholder="Enter CIty"  name="city" placeholder="City" required>
+                
+                <select id="gender" name="gender">
+                    <option value="" disabled selected>Select Gender</option>
+                    <option>Female</option>
+                    <option>Male</option>
+                    <option>Other</option>
+                </select>
+
+                <input type="password" placeholder="Password" id="password" name="password">
+                
+                <div class="captcha-container">
+                    <span id="captcha-text"></span>
+                    <input type="text" placeholder="Enter CAPTCHA" id="captcha-input">
+
+                </div>
+                <p id="captcha-error" class="error"></p>
+                <button type="button" class="refresh-captcha" onclick="generateCaptcha()">Refresh CAPTCHA</button>
+                
+                <button type="submit" class="register-btn">Register</button>
+            </form>
+        </div>
+
+        <div class="login-section">
+            <h2>Welcome Back!</h2>
+            <p>Already have an account?</p>
+            <a href="{% url 'login' %}" 
+            style="margin-left:10px;  text-align: center; height: 40px; width: 300px; line-height: 40px; margin-top: 15px;
+             border-style:groove; border-color:white; color: white; text-decoration: none; border-radius: 5px;">
+            Login
+        </a>
+        </div>
+    </div>
+
+    <script>// Function to generate a random CAPTCHA
+        let generatedCaptcha = "";
+
+        function generateCaptcha() {
+            let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            generatedCaptcha = "";
+            for (let i = 0; i < 6; i++) {
+                generatedCaptcha += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            document.getElementById('captcha-text').textContent = generatedCaptcha;
+        }
+
+        function validateCaptcha(event) {
+            event.preventDefault(); // Stop form submission
+        
+            let userCaptcha = document.getElementById('captcha-input').value.trim();
+            let errorMessage = document.getElementById('captcha-error');
+        
+            if (userCaptcha.toUpperCase() !== generatedCaptcha || userCaptcha === "") {
+                errorMessage.textContent = "Invalid CAPTCHA. Try again!";
+                errorMessage.style.color = "red";
+                generateCaptcha(); // Refresh CAPTCHA
+            } else {
+                errorMessage.textContent = "CAPTCHA Verified!";
+                errorMessage.style.color = "green";
+                document.querySelector("form").submit(); // Manually submit form if CAPTCHA is correct
+            }
+        }
+        
+        // Generate CAPTCHA when the page loads
+        window.onload = generateCaptcha;
+    
+</script>
+</body>
+</html>
